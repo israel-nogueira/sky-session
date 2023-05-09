@@ -166,6 +166,8 @@ Além disso, a criptografia é implementada com algoritmos robustos e altamente 
 
 ```txt
 
+	A $_SESSION ficará assim:
+	
 	Array
 	(
 		[7MKM1vYOmOLkwQHlRrRT2A==] => rBKu5vB7+GWq53BboT9Qrw==
