@@ -165,3 +165,39 @@ Além disso, a criptografia é implementada com algoritmos robustos e altamente 
 	)
 
 ```
+
+
+## OUTRAS FUNÇÕES
+
+```php
+<?
+	require '/vendor/autoload.php';
+	use IsraelNogueira/SkySession/session;
+
+	// Retorna um dado
+	session::__get($var);
+
+	// Seta um dado novo
+	session::__set($var, $value);
+
+	// Finaliza session
+	session::__finish();
+
+	// Retorna toda a sessão
+	session::__getAllSessions();
+
+	// Atualiza o ID da sessão
+	session::__refreshID();
+
+	// Utilizada para salvar a sessão no armazenamento antes de fechar
+	session::__writeClose();
+
+	// Retorna uma string criptografada
+	session::__crypta($value);
+
+	// Retorna a string decifrada
+	session::__decrypta($crypted);
+
+
+?>
+```

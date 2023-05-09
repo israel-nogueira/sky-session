@@ -1,5 +1,13 @@
 <?
+/*
+|--------------------------------------------------------
+|  Damos início as configurações globais da sessão.
+|--------------------------------------------------------
+| 
+|
+ */
 if(session_status()!==PHP_SESSION_ACTIVE){
+
     $ENV = parse_ini_file(__DIR__.DIRECTORY_SEPARATOR.'.env');
     foreach ($ENV as $key => $line){putenv($key.'='.$line);}
     $params             = session_get_cookie_params();
@@ -9,9 +17,14 @@ if(session_status()!==PHP_SESSION_ACTIVE){
     $params['samesite'] = 'Lax';
     $params['domain']   = $_SERVER['HTTP_HOST']??$_SERVER['SERVER_NAME'];
     session_set_cookie_params($params);
-    if(!is_null(getEnv('SESSION_SAVE_PATH')) && getEnv('SESSION_SAVE_PATH')!=""){
+
+    if(
+        !is_null(getEnv('SESSION_SAVE_PATH')) 
+        && getEnv('SESSION_SAVE_PATH')  !=""
+    ){
         session_save_path(getEnv('SESSION_SAVE_PATH'));
     }
+
     ini_set('session.gc_maxlifetime', 3600);
     ini_set('session.name', 'app_session_name');
     ini_set('session.cookie_httponly', 1);
