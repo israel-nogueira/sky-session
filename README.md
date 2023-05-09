@@ -32,3 +32,77 @@ Acrescente em seu ```.env```:
     # SESSION_SAVE_PATH={PATH OPCIONAL}
 
 ```
+
+## APLICAÇÃO
+
+Acrescente em seu *composer.json*, pois  é a configuração que dá inicio a sessão em todas as páginas;
+```json
+   {
+        "autoload": {
+            "psr-4": {
+                "IsraelNogueira\\SkySession\\": "src/"
+            },
+            "files": [
+                "/vendor/israel-nogueira/sky-session/src/session.init.php"
+            ]
+        }
+    }
+```
+## USO
+
+Feito isso, você pode iniciar a utilização da classe.<br>
+
+```php
+<?
+	require '/vendor/autoload.php';
+	use IsraelNogueira/SkySession/session;
+
+
+	$usuario = new session();
+	$usuario->nome = "João da Silva";
+	$usuario->dados  = ["apelido"=>"Jão", "email"=>"jão@gmail.com"];
+
+```
+
+Em qualquer página você poderá chamar:
+
+```php
+<?
+
+	require '/vendor/autoload.php';
+	use IsraelNogueira/SkySession/session;
+
+	$usuario = new session();
+	echo $usuario->nome;
+	print_r($usuario->dados);
+
+```
+
+## MODO ESTÁTICO
+
+Você também pode utilizar a forma estática da classe dessa maneira:
+
+```php
+<?
+
+	require '/vendor/autoload.php';
+	use IsraelNogueira/SkySession/session;
+
+	session::nome("João da Silva");
+	session::dados(["apelido"=>"Jão", "email"=>"jão@gmail.com"]);
+
+```
+
+E para chamar os dados também é simples:
+
+```php
+<?
+
+	require '/vendor/autoload.php';
+	use IsraelNogueira/SkySession/session;
+
+	echo session::nome();
+	print_r(session::dados());
+	
+
+```
