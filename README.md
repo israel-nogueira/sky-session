@@ -73,7 +73,6 @@ Em qualquer página você poderá chamar:
 
 ```php
 <?
-
 	require '/vendor/autoload.php';
 	use IsraelNogueira/SkySession/session;
 
@@ -93,7 +92,6 @@ Basta chamar diretamente a função e pronto.
 
 ```php
 <?
-
 	require '/vendor/autoload.php';
 	use IsraelNogueira/SkySession/session;
 
@@ -117,6 +115,53 @@ E para chamar os dados também é simples:
 	print_r(session::dados());
 
 
+```
 
+## MANIPULANDO A SESSÃO
+
+```php
+<?
+	require '/vendor/autoload.php';
+	use IsraelNogueira/SkySession/session;
+
+	// criando uma informação
+	session::nome("João da silva");
+
+	//modificando uma informação
+	session::nome("Maria Aparecida");
+	
+	// retorna uma informação 
+	echo session::nome(); // aqui retorna Maria Aparecida
+
+	// excluindo uma informação 
+	session::nome(null);
+
+	// Utilizando Arrays
+	session::dados(["apelido"=>"Jão", "email"=>"jão@gmail.com"]);
+	
+	// utilizando apenas um parametro
+	echo session::dados()['apelido']; // retorna "Jão"
+
+	// retorna a array inteira para variável
+	$_DADOS = session::dados();
+
+	// utiliza normalmente
+	echo $_DADOS['email'];
+
+
+```
+
+## Criptografia
+
+A classe de sessões utiliza criptografia de ponta a ponta, garantindo que os dados do usuário permaneçam protegidos durante o tráfego e o armazenamento no servidor. 
+Além disso, a criptografia é implementada com algoritmos robustos e altamente seguros, como o AES e o HMAC-SHA256, oferecendo uma camada adicional de proteção contra ameaças de segurança.
+
+```txt
+
+	Array
+	(
+		[7MKM1vYOmOLkwQHlRrRT2A==] => rBKu5vB7+GWq53BboT9Qrw==
+		[TjDYbihs4t79o3BMiRBEPQ==] => lm+sC7+SYOnmvHXyEdCBiiYEymgyyV4+gD7Yl7BZBfs2hez/3xiUBtXyl9w0GqT6ykDpNPHZPHASvc9PCMdbow==
+	)
 
 ```
