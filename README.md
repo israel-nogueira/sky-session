@@ -1,15 +1,15 @@
 
 <p align="center">
-    <img src="https://raw.githubusercontent.com/israel-nogueira/sky-session/main/src/topo_README.jpg" width="650"/>
+    <img src="https://raw.githubusercontent.com/israel-nogueira/sky-session/main/src/topo_README.jpg"/>
 </p>
 <p align="center">
     <a href="#instalação" target="_Self">Instalação</a> |
-    <a href="#configurando-a-base" target="_Self">Config a base</a> |
-    <a href="#snippets-para-vscode" target="_Self">Snippets</a> |
-    <a href="#criando-models" target="_Self">Models</a> |
-    <a href="#exemplos-de-uso" target="_Self">Exemplos de uso</a> |
-    <a href="#funções-na-model" target="_Self">Functions</a> |
-    <a href="#stored-procedures" target="_Self">Store Procedures</a> 
+    <a href="#aplicação" target="_Self">Aplicação</a> |
+    <a href="#uso" target="_Self">Uso</a> |
+    <a href="#modo-estático" target="_Self">Função Estática</a> |
+    <a href="#manipulando-a-sessão" target="_Self">Manipulando a sessão</a> |
+    <a href="#criptografia" target="_Self">Criptografia</a> |
+    <a href="#outras-funções" target="_Self">Outras Funções</a> 
 </p>
 <p align="center">
     <a href="https://packagist.org/packages/israel-nogueira/sky-session"><img src="https://poser.pugx.org/israel-nogueira/sky-session/v/stable.svg"></a>
