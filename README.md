@@ -47,6 +47,8 @@ Acrescente em seu *composer.json*, pois  é a configuração que dá inicio a se
             ]
         }
     }
+
+
 ```
 ## USO
 
@@ -62,6 +64,9 @@ Feito isso, você pode iniciar a utilização da classe.<br>
 	$usuario->nome = "João da Silva";
 	$usuario->dados  = ["apelido"=>"Jão", "email"=>"jão@gmail.com"];
 
+
+
+
 ```
 
 Em qualquer página você poderá chamar:
@@ -76,11 +81,15 @@ Em qualquer página você poderá chamar:
 	echo $usuario->nome;
 	print_r($usuario->dados);
 
+
+
 ```
 
 ## MODO ESTÁTICO
 
-Você também pode utilizar a forma estática da classe dessa maneira:
+Você também pode utilizar a forma estática da classe.<br/>
+Dessa maneira você não precisa sempre criar uma nova instancia.
+Basta chamar diretamente a função e pronto.
 
 ```php
 <?
@@ -88,8 +97,12 @@ Você também pode utilizar a forma estática da classe dessa maneira:
 	require '/vendor/autoload.php';
 	use IsraelNogueira/SkySession/session;
 
+
 	session::nome("João da Silva");
 	session::dados(["apelido"=>"Jão", "email"=>"jão@gmail.com"]);
+
+
+
 
 ```
 
@@ -97,12 +110,13 @@ E para chamar os dados também é simples:
 
 ```php
 <?
-
 	require '/vendor/autoload.php';
 	use IsraelNogueira/SkySession/session;
 
 	echo session::nome();
 	print_r(session::dados());
-	
+
+
+
 
 ```
