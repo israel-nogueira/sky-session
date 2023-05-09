@@ -24,12 +24,12 @@ Acrescente em seu ```.env```:
 
 ```env
 
-    #vendor/israel-nogueira/sky-session/src/.env
+    #/vendor/israel-nogueira/sky-session/src/.env
 
     SESSION_CRYPT_KEY={SUA_CHAVE_SECRETA}
     SESSION_CRYPT_IV={CRYPT_IV}
     SESSION_NAME={NOME_DA_SESSÃO_DEFAULT}
-    # SESSION_SAVE_PATH={PATH OPCIONAL}
+    SESSION_SAVE_PATH={PATH} (Opcional)
 
 ```
 
