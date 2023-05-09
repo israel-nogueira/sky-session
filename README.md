@@ -20,10 +20,15 @@ Instale via composer.
     composer require israel-nogueira/sky-session
 ```
 
-Acrescente em seu _composer.json_:
+Acrescente em seu ```.env```:
 
-```plaintext
-    "scripts": {
-        "galaxy": "php vendor/israel-nogueira/sky-session/src/galaxy"
-    }
+```env
+
+    #vendor/israel-nogueira/sky-session/src/.env
+
+    SESSION_SECRET=4ddbd246d4a9848eb67df3e7b98c32a25b91f57760d57eeaccecf808c48731ed
+    SESSION_CRYPT_KEY=0723489yheuhf724fgoewygf
+    SESSION_CRYPT_IV=0123456789abcdef
+    SESSION_NAME=sesion_name_kkk
+
 ```
