@@ -43,7 +43,7 @@ Acrescente em seu *composer.json*, pois  é a configuração que dá inicio a se
                 "IsraelNogueira\\SkySession\\": "src/"
             },
 			"files": [
-				"/vendor/israel-nogueira/sky-session/src/session.init.php"
+				"vendor/israel-nogueira/sky-session/src/session.init.php"
 			]
         }
     }
@@ -53,7 +53,7 @@ Acrescente em seu *composer.json*, pois  é a configuração que dá inicio a se
 Após isso, execute:
 ```
 	composer dump-autoload
-	
+
 ```
 
 
