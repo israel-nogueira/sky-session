@@ -1,10 +1,21 @@
-![GalaxyDB](https://raw.githubusercontent.com/israel-nogueira/sky-session/main/src/topo_README.jpg)
 
----
-
-[![Latest Stable Version](https://poser.pugx.org/israel-nogueira/sky-session/v/stable.svg)](https://packagist.org/packages/israel-nogueira/sky-session)
-[![Total Downloads](https://poser.pugx.org/israel-nogueira/sky-session/downloads)](https://packagist.org/packages/israel-nogueira/sky-session)
-[![License](https://poser.pugx.org/israel-nogueira/sky-session/license.svg)](https://packagist.org/packages/israel-nogueira/sky-session)
+<p align="center">
+    <img src="https://raw.githubusercontent.com/israel-nogueira/sky-session/main/src/topo_README.jpg" width="650"/>
+</p>
+<p align="center">
+    <a href="#instalação" target="_Self">Instalação</a> |
+    <a href="#configurando-a-base" target="_Self">Config a base</a> |
+    <a href="#snippets-para-vscode" target="_Self">Snippets</a> |
+    <a href="#criando-models" target="_Self">Models</a> |
+    <a href="#exemplos-de-uso" target="_Self">Exemplos de uso</a> |
+    <a href="#funções-na-model" target="_Self">Functions</a> |
+    <a href="#stored-procedures" target="_Self">Store Procedures</a> 
+</p>
+<p align="center">
+    <a href="https://packagist.org/packages/israel-nogueira/sky-session"><img src="https://poser.pugx.org/israel-nogueira/sky-session/v/stable.svg"></a>
+    <a href="https://packagist.org/packages/israel-nogueira/sky-session"><img src="https://poser.pugx.org/israel-nogueira/sky-session/downloads"></a>
+    <a href="https://packagist.org/packages/israel-nogueira/sky-session"><img src="https://poser.pugx.org/israel-nogueira/sky-session/license.svg"></a>
+</p>
 
 
 Se você está procurando uma solução simples e fácil para trabalhar com sessões criptografadas em PHP, a classe de sessões que desenvolvi pode ser a escolha certa para você. Com ela, você pode facilmente armazenar e recuperar dados sensíveis em suas sessões, mantendo-os protegidos contra invasões e vazamentos de informações.
