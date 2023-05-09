@@ -1,0 +1,23 @@
+{
+    "name": "israel-nogueira/sky-session",
+    "description": "Uma classe simples e segura para sessions no PHP",
+    "type": "library",
+    "license": "mit",
+    "autoload": {
+        "psr-4": {
+            "IsraelNogueira\\SkySession\\": "src/"
+        },
+        "files": [
+            "src/session.php"
+        ]
+    },
+
+
+    "authors": [
+        {
+            "name": "Israel Nogueira",
+            "email": "israel@feats.com.br"
+        }
+    ],
+    "require": {}
+}
