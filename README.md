@@ -26,9 +26,9 @@ Acrescente em seu ```.env```:
 
     #vendor/israel-nogueira/sky-session/src/.env
 
-    SESSION_SECRET=4ddbd246d4a9848eb67df3e7b98c32a25b91f57760d57eeaccecf808c48731ed
-    SESSION_CRYPT_KEY=0723489yheuhf724fgoewygf
-    SESSION_CRYPT_IV=0123456789abcdef
-    SESSION_NAME=sesion_name_kkk
+    SESSION_CRYPT_KEY={SUA_CHAVE_SECRETA}
+    SESSION_CRYPT_IV={CRYPT_IV}
+    SESSION_NAME={NOME_DA_SESSÃO_DEFAULT}
+    # SESSION_SAVE_PATH={PATH OPCIONAL}
 
 ```
