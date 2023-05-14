@@ -1,19 +1,10 @@
 <?
+
+
 namespace IsraelNogueira\SkySession;
 
-/*
-|--------------------------------------------- 
-|	CONECTA COM A SESSÃO
-|--------------------------------------------- 
-|
-|	Inicia a sessão 
-|
-*/
-	
-	include(__DIR__.'/session.init.php');
-
-
 /**
+ * 
  * SKY-SESSION
  *
  * Leve a segurança das suas sessões para o próximo nível com a Sky-Session. 
@@ -30,6 +21,7 @@ namespace IsraelNogueira\SkySession;
  * 
  */
 
+
 class session {
 	private $secury = true;
 
@@ -43,14 +35,26 @@ class session {
 	*/
 	public function __construct($session_name=null) 
 	{
-		if(empty($_SESSION)){
-			if (session_status() == PHP_SESSION_NONE) {
-				$sessnam       = $session_name??getEnv('SESSION_NAME');
-				session_name($sessnam);
+		
+		if (session_status() == PHP_SESSION_NONE) {
+			$ENV = parse_ini_file(__DIR__.DIRECTORY_SEPARATOR.'.env');
+			foreach ($ENV as $key => $line){putenv($key.'='.$line);}
+			session_set_cookie_params(0, '/', '', true, true);
+			if (!is_null(getEnv('SESSION_SAVE_PATH')) && getEnv('SESSION_SAVE_PATH') != "") {
+				session_save_path(getEnv('SESSION_SAVE_PATH'));
 			}
-			$session_id = session_id();
-			session_write_close();
-			session_id($session_id);
+			ini_set('session.gc_maxlifetime', 3600);
+			ini_set('session.name', 'app_session_name');
+			ini_set('session.cookie_httponly', 1);
+			ini_set('session.cookie_samesite', 'Lax');
+			ini_set('session.use_cookies', 1);
+			ini_set('session.use_strict_mode', 1);
+			ini_set('session.use_only_cookies', 1);
+			ini_set('session.sid_length', 128);
+			ini_set('session.auto_start', 0);
+			ini_set('url_rewriter.tags', '');
+			$sessnam = $session_name ?? getEnv('SESSION_NAME');
+			session_name($sessnam);
 			session_start();
 		}
 	}
@@ -116,6 +120,7 @@ class session {
 	{
 		return $this->set($name, $value);
 	}
+
 
 	/*
 	|--------------------------------------------------------------------------- 
@@ -304,3 +309,4 @@ class session {
 	}
 
 }
+
