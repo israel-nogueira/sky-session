@@ -1,5 +1,18 @@
 <?
 namespace IsraelNogueira\SkySession;
+
+/*
+|--------------------------------------------- 
+|	CONECTA COM A SESSÃO
+|--------------------------------------------- 
+|
+|	Inicia a sessão 
+|
+*/
+	
+	include(__DIR__.'/session.init.php');
+
+
 /**
  * SKY-SESSION
  *
@@ -16,6 +29,7 @@ namespace IsraelNogueira\SkySession;
  *
  * 
  */
+
 class session {
 	private $secury = true;
 
