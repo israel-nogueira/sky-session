@@ -37,7 +37,7 @@ class session {
 	{
 		
 		if (session_status() == PHP_SESSION_NONE) {
-			$ENV = parse_ini_file(__DIR__.DIRECTORY_SEPARATOR.'.env');
+			$ENV = parse_ini_file(realpath(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..').DIRECTORY_SEPARATOR.'.env');
 			foreach ($ENV as $key => $line){putenv($key.'='.$line);}
 			session_set_cookie_params(0, '/', '', true, true);
 			if (!is_null(getEnv('SESSION_SAVE_PATH')) && getEnv('SESSION_SAVE_PATH') != "") {
