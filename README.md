@@ -31,11 +31,11 @@ Instale via composer.
     composer require israel-nogueira/sky-session
 ```
 
-Acrescente em seu ```.env```:
+Acrescente em seu ```.env``` na raiz do seu projeto:
 
 ```env
 
-    #/vendor/israel-nogueira/sky-session/src/.env
+    #/.env
 
     SESSION_CRYPT_KEY={SUA_CHAVE_SECRETA}
     SESSION_CRYPT_IV={CRYPT_IV}
