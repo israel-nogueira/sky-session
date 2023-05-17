@@ -44,31 +44,6 @@ Acrescente em seu ```.env```:
 
 ```
 
-## APLICAÇÃO
-
-Acrescente em seu *composer.json*, pois  é a configuração que dá inicio a sessão em todas as páginas;
-```json
-
-	{
-		"autoload": {
-			"psr-4": {
-				"IsraelNogueira\\SkySession\\": "src/"
-			},
-			"files": [
-				"vendor/israel-nogueira/sky-session/src/session.init.php"
-			]
-		}
-	}
-
-```
-Após isso, execute:
-```
-
-	composer dump-autoload
-
-```
-
-
 ## USO
 
 Feito isso, você pode iniciar a utilização da classe.<br>

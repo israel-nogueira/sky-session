@@ -40,7 +40,11 @@ class session {
 			$ENV = parse_ini_file(realpath(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..').DIRECTORY_SEPARATOR.'.env');
 			foreach ($ENV as $key => $line){putenv($key.'='.$line);}
 			session_set_cookie_params(0, '/', '', true, true);
-			if (!is_null(getEnv('SESSION_SAVE_PATH')) && getEnv('SESSION_SAVE_PATH') != "") {
+
+			if (
+				!is_null(getEnv('SESSION_SAVE_PATH')) && 
+				getEnv('SESSION_SAVE_PATH') != ""
+			) {
 				session_save_path(getEnv('SESSION_SAVE_PATH'));
 			}
 			ini_set('session.gc_maxlifetime', 3600);
@@ -121,6 +125,28 @@ class session {
 		return $this->set($name, $value);
 	}
 
+
+	/*
+	|--------------------------------------------------------------------------- 
+	|	VERIFICAMOS .ENV
+	|--------------------------------------------------------------------------- 
+	*/
+	public function configEnv() 
+	{
+		$ENV = parse_ini_file(realpath(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..').DIRECTORY_SEPARATOR.'.env');
+		if(!file_exists($ENV)){
+			$_STRINGENV = PHP_EOL.'-------------- BEGIN SKY SESSION ----------------'.PHP_EOL.PHP_EOL;
+			$_STRINGENV .= PHP_EOL.'SESSION_SAVE_PATH='.PHP_EOL;
+			$_STRINGENV .= PHP_EOL.'SESSION_NAME='.PHP_EOL;
+			$_STRINGENV .= PHP_EOL.'SESSION_CRYPT_KEY='.PHP_EOL;
+			$_STRINGENV .= PHP_EOL.'SESSION_CRYPT_IV='.PHP_EOL;
+			$_STRINGENV .= PHP_EOL.PHP_EOL.'-------------- END SKY SESSION ----------------'.PHP_EOL;
+			file_put_contents($ENV,$_STRINGENV,FILE_APPEND);
+		}
+
+		
+		
+	}
 
 	/*
 	|--------------------------------------------------------------------------- 
