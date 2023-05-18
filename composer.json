@@ -8,13 +8,10 @@
             "IsraelNogueira\\SkySession\\": "src/"
         }
     },
-
-
     "authors": [
         {
             "name": "Israel Nogueira",
             "email": "israel@feats.com.br"
         }
-    ],
-    "require": {}
+    ]
 }

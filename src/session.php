@@ -2,6 +2,7 @@
 
 
 namespace IsraelNogueira\SkySession;
+use Exception;
 
 /**
  * 
@@ -37,10 +38,11 @@ class session {
 	{
 		
 		if (session_status() == PHP_SESSION_NONE) {
-			$ENV = parse_ini_file(realpath(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..').DIRECTORY_SEPARATOR.'.env');
-			foreach ($ENV as $key => $line){putenv($key.'='.$line);}
-			session_set_cookie_params(0, '/', '', true, true);
 
+			$this->configEnv();
+
+
+			session_set_cookie_params(0, '/', '', true, true);
 			if (
 				!is_null(getEnv('SESSION_SAVE_PATH')) && 
 				getEnv('SESSION_SAVE_PATH') != ""
@@ -128,24 +130,26 @@ class session {
 
 	/*
 	|--------------------------------------------------------------------------- 
-	|	VERIFICAMOS .ENV
+	|	IMPORTAMOS O .ENV
 	|--------------------------------------------------------------------------- 
 	*/
 	public function configEnv() 
 	{
-		$ENV = parse_ini_file(realpath(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..').DIRECTORY_SEPARATOR.'.env');
+
+		$ENV = realpath(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..').DIRECTORY_SEPARATOR.'.env';
+		
 		if(!file_exists($ENV)){
-			$_STRINGENV = PHP_EOL.'-------------- BEGIN SKY SESSION ----------------'.PHP_EOL.PHP_EOL;
-			$_STRINGENV .= PHP_EOL.'SESSION_SAVE_PATH='.PHP_EOL;
-			$_STRINGENV .= PHP_EOL.'SESSION_NAME='.PHP_EOL;
-			$_STRINGENV .= PHP_EOL.'SESSION_CRYPT_KEY='.PHP_EOL;
-			$_STRINGENV .= PHP_EOL.'SESSION_CRYPT_IV='.PHP_EOL;
-			$_STRINGENV .= PHP_EOL.PHP_EOL.'-------------- END SKY SESSION ----------------'.PHP_EOL;
-			file_put_contents($ENV,$_STRINGENV,FILE_APPEND);
+			throw new Exception("Erro ao criar session: Arquivo .ENV inexistente");
+		}else{
+			foreach (parse_ini_file($ENV) as $key => $line){
+				if(empty(getEnv($key))){putenv($key.'='.$line);}
+			}
+		}	
+		
+		if(	empty(getEnv('SESSION_NAME')) || empty(getEnv('SESSION_CRYPT_KEY')) || empty(getEnv('SESSION_CRYPT_IV'))){
+			throw new Exception("Erro ao criar session: Arquivo .ENV com parâmetros incorretos");
 		}
 
-		
-		
 	}
 
 	/*
