@@ -2,7 +2,6 @@
 
 
 namespace IsraelNogueira\SkySession;
-use Exception;
 
 /**
  * 
@@ -38,15 +37,26 @@ class session {
 	{
 		
 		if (session_status() == PHP_SESSION_NONE) {
+			$ENV = parse_ini_file(realpath(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..').DIRECTORY_SEPARATOR.'.env');
+			foreach ($ENV as $key => $line){putenv($key.'='.$line);}
 
-			$this->configEnv();
+
+			$_HTTPS		=	(isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? true:false;
+			$_DOMAIN	=	(!empty($_SERVER['HTTP_HOST'])) ? $_SERVER['HTTP_HOST']:  $_SERVER['REMOTE_ADDR'];
 
 
-			session_set_cookie_params(0, '/', '', true, true);
-			if (
-				!is_null(getEnv('SESSION_SAVE_PATH')) && 
-				getEnv('SESSION_SAVE_PATH') != ""
-			) {
+			session_set_cookie_params(
+				0,
+				"/",
+				$_DOMAIN, // Substitua pelo seu domínio ou IP
+				$_HTTPS, // Definir como true se você quiser que o cookie seja transmitido apenas por HTTPS
+				true // Definir como true para impedir que o JavaScript acesse o cookie
+			);
+
+
+
+
+			if (!is_null(getEnv('SESSION_SAVE_PATH')) && getEnv('SESSION_SAVE_PATH') != "") {
 				session_save_path(getEnv('SESSION_SAVE_PATH'));
 			}
 			ini_set('session.gc_maxlifetime', 3600);
@@ -127,30 +137,6 @@ class session {
 		return $this->set($name, $value);
 	}
 
-
-	/*
-	|--------------------------------------------------------------------------- 
-	|	IMPORTAMOS O .ENV
-	|--------------------------------------------------------------------------- 
-	*/
-	public function configEnv() 
-	{
-
-		$ENV = realpath(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..').DIRECTORY_SEPARATOR.'.env';
-		
-		if(!file_exists($ENV)){
-			throw new Exception("Erro ao criar session: Arquivo .ENV inexistente");
-		}else{
-			foreach (parse_ini_file($ENV) as $key => $line){
-				if(empty(getEnv($key))){putenv($key.'='.$line);}
-			}
-		}	
-		
-		if(	empty(getEnv('SESSION_NAME')) || empty(getEnv('SESSION_CRYPT_KEY')) || empty(getEnv('SESSION_CRYPT_IV'))){
-			throw new Exception("Erro ao criar session: Arquivo .ENV com parâmetros incorretos");
-		}
-
-	}
 
 	/*
 	|--------------------------------------------------------------------------- 
@@ -318,9 +304,12 @@ class session {
 	|	Ela recebe um parâmetro $data contendo os dados a serem criptografados e retorna o resultado da criptografia.
 	|
 	*/
-	private function crypta($data) 
-	{
-		return openssl_encrypt($data, 'aes-256-cbc', getEnv('SESSION_CRYPT_KEY'), 0, getEnv('SESSION_CRYPT_IV'));
+	private function crypta($data) {
+
+		$encryptedData = @openssl_encrypt($data, 'aes-256-cbc', getEnv('SESSION_CRYPT_KEY'), 0, getEnv('SESSION_CRYPT_IV'));
+		if ($encryptedData === false) {}
+	    return $encryptedData;
+
 	}
 
 	/*
