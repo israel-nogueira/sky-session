@@ -43,15 +43,8 @@ class session {
 
 			$_HTTPS		=	(isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? true:false;
 			$_DOMAIN	=	(!empty($_SERVER['HTTP_HOST'])) ? $_SERVER['HTTP_HOST']:  $_SERVER['REMOTE_ADDR'];
+			session_set_cookie_params( 0, "/", $_DOMAIN, $_HTTPS, true );
 
-
-			session_set_cookie_params(
-				0,
-				"/",
-				$_DOMAIN, // Substitua pelo seu domínio ou IP
-				$_HTTPS, // Definir como true se você quiser que o cookie seja transmitido apenas por HTTPS
-				true // Definir como true para impedir que o JavaScript acesse o cookie
-			);
 
 
 
