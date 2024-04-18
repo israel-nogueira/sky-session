@@ -1,6 +1,4 @@
 <?
-
-
 namespace IsraelNogueira\SkySession;
 
 /**
@@ -37,18 +35,14 @@ class session {
 	{
 		
 		if (session_status() == PHP_SESSION_NONE) {
-			$ENV = parse_ini_file(realpath(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..').DIRECTORY_SEPARATOR.'.env');
-			foreach ($ENV as $key => $line){putenv($key.'='.$line);}
+			
+			define('ENVDATA',parse_ini_file(realpath(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..').DIRECTORY_SEPARATOR.'.env'));
+			
+			foreach (ENVDATA as $key => $line){
+				putenv($key.'='.$line);
+			}
 
-
-			$_HTTPS		=	(isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? true:false;
-			$_DOMAIN	=	(!empty($_SERVER['HTTP_HOST'])) ? $_SERVER['HTTP_HOST']:  $_SERVER['REMOTE_ADDR'];
-			session_set_cookie_params( 0, "/", $_DOMAIN, $_HTTPS, true );
-
-
-
-
-
+			session_set_cookie_params(0, '/', '', true, true);
 			if (!is_null(getEnv('SESSION_SAVE_PATH')) && getEnv('SESSION_SAVE_PATH') != "") {
 				session_save_path(getEnv('SESSION_SAVE_PATH'));
 			}
@@ -78,7 +72,7 @@ class session {
 	|	session::variável() // recupera valor
 	|
 	*/
-	public static function __callStatic( $_name, $arguments )
+	public static function __callStatic( $_name, $arguments=[] )
 	{
 		$session = new session();
 		if(strpos($_name,'__')===false){
@@ -150,7 +144,7 @@ class session {
 	|	Recupera um dado da sessão
 	|--------------------------------------------------------------------------- 
 	*/
-	public function get($var) 
+	public function get($var=null) 
 	{
 		if ($this->secury) {
 			if(gettype(@$_SESSION[$this->crypta($var)])=='NULL'){
@@ -161,7 +155,7 @@ class session {
 				return $_value;
 			}
 		}else{
-			if(gettype(@$_SESSION[$var])=='NULL'){
+			if(is_null($var) || gettype(@$_SESSION[$var])=='NULL'){
 				return NULL;
 			}else{
 				if($this->isJson($_SESSION[$var])){ $_SESSION[$var] = json_decode($_SESSION[$var], true);}
@@ -297,11 +291,16 @@ class session {
 	|	Ela recebe um parâmetro $data contendo os dados a serem criptografados e retorna o resultado da criptografia.
 	|
 	*/
-	private function crypta($data) {
+	private function crypta($data=null) 
+	{
 
-		$encryptedData = @openssl_encrypt($data, 'aes-256-cbc', getEnv('SESSION_CRYPT_KEY'), 0, getEnv('SESSION_CRYPT_IV'));
-		if ($encryptedData === false) {}
-	    return $encryptedData;
+		//	GERA UM IV SEGURO, CASO ESTEJA DANDO ERROS, PODE USAR AQUI 
+		// $_IV = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc')); 
+		// $_IV = substr($_IV, 0, 16);
+
+
+		$ciphertext = openssl_encrypt($data, 'aes-256-cbc', ENVDATA['SESSION_CRYPT_KEY'], 0, base64_decode(ENVDATA['SESSION_CRYPT_IV']));
+		return $ciphertext;
 
 	}
 
@@ -317,7 +316,7 @@ class session {
 	*/
 	private function decrypta($data) 
 	{
-		return openssl_decrypt($data, 'aes-256-cbc', getEnv('SESSION_CRYPT_KEY'), 0, getEnv('SESSION_CRYPT_IV'));
+		return openssl_decrypt($data, 'aes-256-cbc', ENVDATA['SESSION_CRYPT_KEY'], 0, base64_decode(ENVDATA['SESSION_CRYPT_IV']));
 	}
 
 }
