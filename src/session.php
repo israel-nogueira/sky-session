@@ -31,36 +31,37 @@ class session {
 	|	Inicia a sessão 
 	|
 	*/
-	public function __construct($session_name=null) 
-	{
-		
-		if (session_status() == PHP_SESSION_NONE) {
-			
-			define('ENVDATA',parse_ini_file(realpath(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..').DIRECTORY_SEPARATOR.'.env'));
-			
-			foreach (ENVDATA as $key => $line){
-				putenv($key.'='.$line);
-			}
+public function __construct($session_name = null) 
+{
+    // Certifique-se de que não há nenhum output antes desse ponto
 
-			session_set_cookie_params(0, '/', '', true, true);
-			if (!is_null(getEnv('SESSION_SAVE_PATH')) && getEnv('SESSION_SAVE_PATH') != "") {
-				session_save_path(getEnv('SESSION_SAVE_PATH'));
-			}
-			ini_set('session.gc_maxlifetime', 3600);
-			ini_set('session.name', 'app_session_name');
-			ini_set('session.cookie_httponly', 1);
-			ini_set('session.cookie_samesite', 'Lax');
-			ini_set('session.use_cookies', 1);
-			ini_set('session.use_strict_mode', 1);
-			ini_set('session.use_only_cookies', 1);
-			ini_set('session.sid_length', 128);
-			ini_set('session.auto_start', 0);
-			ini_set('url_rewriter.tags', '');
-			$sessnam = $session_name ?? getEnv('SESSION_NAME');
-			session_name($sessnam);
-			session_start();
-		}
-	}
+    if (session_status() == PHP_SESSION_NONE && !headers_sent()) {
+        // Carregar o arquivo .env
+		// precisa especificar o caminho completo do arquivo .env ou o path relativo.
+        $envData = parse_ini_file('.env');
+        foreach ($envData as $key => $line){
+            putenv($key . '=' . $line);
+        }
+
+        // Configurar os parâmetros da sessão
+        session_set_cookie_params(0, '/', '', true, true);
+        ini_set('session.gc_maxlifetime', 3600);
+        ini_set('session.name', 'app_session_name');
+        ini_set('session.cookie_httponly', 1);
+        ini_set('session.cookie_samesite', 'Lax');
+        ini_set('session.use_cookies', 1);
+        ini_set('session.use_strict_mode', 1);
+        ini_set('session.use_only_cookies', 1);
+        ini_set('session.sid_length', 128);
+        ini_set('session.auto_start', 0);
+        ini_set('url_rewriter.tags', '');
+
+        // Iniciar a sessão
+        $sessnam = $session_name ?? getenv('SESSION_NAME');
+        session_name($sessnam);
+        session_start();
+    }
+}
 
 	/*
 	|--------------------------------------------- 
@@ -296,10 +297,9 @@ class session {
 
 		//	GERA UM IV SEGURO, CASO ESTEJA DANDO ERROS, PODE USAR AQUI 
 		// $_IV = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc')); 
-		// $_IV = substr($_IV, 0, 16);
-
-
-		$ciphertext = openssl_encrypt($data, 'aes-256-cbc', ENVDATA['SESSION_CRYPT_KEY'], 0, base64_decode(ENVDATA['SESSION_CRYPT_IV']));
+		// $_IV = base64_encode(substr($_IV, 0, 16));
+		// die($_IV);
+		$ciphertext = openssl_encrypt($data, 'aes-256-cbc', getEnv('SESSION_CRYPT_KEY'), 0, base64_decode(getEnv('SESSION_CRYPT_IV')));
 		return $ciphertext;
 
 	}
@@ -316,7 +316,7 @@ class session {
 	*/
 	private function decrypta($data) 
 	{
-		return openssl_decrypt($data, 'aes-256-cbc', ENVDATA['SESSION_CRYPT_KEY'], 0, base64_decode(ENVDATA['SESSION_CRYPT_IV']));
+		return openssl_decrypt($data, 'aes-256-cbc', getEnv('SESSION_CRYPT_KEY'), 0, base64_decode(getEnv('SESSION_CRYPT_IV')));
 	}
 
 }
