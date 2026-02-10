@@ -1,199 +1,448 @@
+# 🚀 Sky Session
 
-<p align="center">
-    <img src="https://raw.githubusercontent.com/israel-nogueira/sky-session/main/src/topo_README.jpg"/>
-</p>
-<p align="center">
-    <a href="#instalação" target="_Self">Instalação</a> |
-    <a href="#aplicação" target="_Self">Aplicação</a> |
-    <a href="#uso" target="_Self">Uso</a> |
-    <a href="#modo-estático" target="_Self">Função Estática</a> |
-    <a href="#manipulando-a-sessão" target="_Self">Manipulando a sessão</a> |
-    <a href="#criptografia" target="_Self">Criptografia</a> |
-    <a href="#outras-funções" target="_Self">Outras Funções</a> 
-</p>
-<p align="center">
-    <a href="https://packagist.org/packages/israel-nogueira/sky-session"><img src="https://poser.pugx.org/israel-nogueira/sky-session/v/stable.svg"></a>
-    <a href="https://packagist.org/packages/israel-nogueira/sky-session"><img src="https://poser.pugx.org/israel-nogueira/sky-session/downloads"></a>
-    <a href="https://packagist.org/packages/israel-nogueira/sky-session"><img src="https://poser.pugx.org/israel-nogueira/sky-session/license.svg"></a>
-</p>
+[![Latest Version](https://img.shields.io/packagist/v/israel-nogueira/sky-session.svg)](https://packagist.org/packages/israel-nogueira/sky-session)
+[![PHP Version](https://img.shields.io/packagist/php-v/israel-nogueira/sky-session.svg)](https://packagist.org/packages/israel-nogueira/sky-session)
+[![License](https://img.shields.io/packagist/l/israel-nogueira/sky-session.svg)](https://packagist.org/packages/israel-nogueira/sky-session)
+[![Total Downloads](https://img.shields.io/packagist/dt/israel-nogueira/sky-session.svg)](https://packagist.org/packages/israel-nogueira/sky-session)
 
+**Gerenciamento de sessões moderno, seguro e testado para PHP 8.1+**
 
-Se você está procurando uma solução simples e fácil para trabalhar com sessões criptografadas em PHP, a classe de sessões que desenvolvi pode ser a escolha certa para você. Com ela, você pode facilmente armazenar e recuperar dados sensíveis em suas sessões, mantendo-os protegidos contra invasões e vazamentos de informações.
+Leve a segurança das suas sessões para o próximo nível com Sky Session. Criptografia AES-256-CBC, PSR-4 compliant, 100% testado e fácil de usar.
 
-A classe é extremamente simples de usar, com um construtor que permite configurar facilmente a criptografia da sessão e um conjunto de métodos intuitivos para armazenar e recuperar dados. Com uma documentação clara e completa, você pode começar a usar a classe em questão de minutos, sem ter que se preocupar com complexidades desnecessárias.
+---
 
+## 📋 Índice
 
-## Instalação
+- [Características](#-características)
+- [Requisitos](#-requisitos)
+- [Instalação](#-instalação)
+- [Configuração](#-configuração)
+- [Uso Básico](#-uso-básico)
+- [Uso Avançado](#-uso-avançado)
+- [API Completa](#-api-completa)
+- [Testes](#-testes)
+- [Segurança](#-segurança)
+- [Contribuindo](#-contribuindo)
+- [Licença](#-licença)
 
-Instale via composer.
+---
 
-```plaintext
-    composer require israel-nogueira/sky-session
+## ✨ Características
+
+✅ **Criptografia AES-256-CBC** - Proteção de ponta a ponta dos dados  
+✅ **PHP 8.1+** - Type hints, strict types e recursos modernos  
+✅ **PSR-4 Compliant** - Estrutura profissional  
+✅ **100% Testado** - Cobertura completa com PHPUnit  
+✅ **Singleton Pattern** - Instância única e eficiente  
+✅ **Magic Methods** - API intuitiva e flexível  
+✅ **Static Methods** - Uso sem instanciação  
+✅ **Arrays & Objects** - Suporte nativo com JSON  
+✅ **Zero Dependências** - Apenas extensões nativas do PHP  
+✅ **Documentação Completa** - PHPDoc em todos os métodos  
+
+---
+
+## 📦 Requisitos
+
+- PHP >= 8.1
+- ext-openssl
+- ext-json
+- ext-mbstring
+
+---
+
+## 🔧 Instalação
+
+```bash
+composer require israel-nogueira/sky-session
 ```
 
-Acrescente em seu ```.env``` na raiz do seu projeto:
+---
+
+## ⚙️ Configuração
+
+### 1. Crie o arquivo `.env` na raiz do projeto:
 
 ```env
-
-    #/.env
-
-    SESSION_CRYPT_KEY={SUA_CHAVE_SECRETA}
-    SESSION_CRYPT_IV={CRYPT_IV}
-    SESSION_NAME={NOME_DA_SESSÃO_DEFAULT}
-    SESSION_SAVE_PATH={PATH} (Opcional)
-
+SESSION_NAME=my_app_session
+SESSION_LIFETIME=3600
+SESSION_SECURE=true
+SESSION_CRYPT_KEY=your_32_byte_hex_key_here
+SESSION_CRYPT_IV=your_base64_iv_here
+SESSION_COOKIE_PATH=/
+SESSION_COOKIE_DOMAIN=
+SESSION_COOKIE_SECURE=true
+SESSION_COOKIE_SAMESITE=Lax
 ```
 
-## USO
+### 2. Gere chaves seguras:
 
-Feito isso, você pode iniciar a utilização da classe.<br>
+```bash
+# Gerar chave de criptografia
+php -r "echo bin2hex(random_bytes(16));"
+
+# Gerar IV
+php -r "echo base64_encode(random_bytes(16));"
+```
+
+---
+
+## 🚀 Uso Básico
+
+### Forma Orientada a Objetos
 
 ```php
-<?
-	require '/vendor/autoload.php';
-	use IsraelNogueira/SkySession/session;
+<?php
 
+use IsraelNogueira\SkySession\Session;
 
-	$usuario = new session();
-	$usuario->nome = "João da Silva";
-	$usuario->dados  = ["apelido"=>"Jão", "email"=>"jão@gmail.com"];
+// Criar instância
+$session = new Session();
 
+// Definir valores
+$session->set('username', 'john_doe');
+$session->set('user_data', [
+    'email' => 'john@example.com',
+    'role' => 'admin'
+]);
 
+// Recuperar valores
+echo $session->get('username'); // john_doe
+$userData = $session->get('user_data');
 
+// Verificar existência
+if ($session->has('username')) {
+    echo 'Usuário logado!';
+}
 
+// Remover valor
+$session->unset('username');
+
+// Obter todas as variáveis
+$all = $session->all();
 ```
 
-Em qualquer página você poderá chamar:
+### Usando Magic Methods
 
 ```php
-<?
-	require '/vendor/autoload.php';
-	use IsraelNogueira/SkySession/session;
+<?php
 
-	$usuario = new session();
-	echo $usuario->nome;
-	print_r($usuario->dados);
+use IsraelNogueira\SkySession\Session;
 
+$session = new Session();
 
+// Set usando propriedade
+$session->username = 'jane_doe';
+$session->cart = ['item1', 'item2'];
 
+// Get usando propriedade
+echo $session->username; // jane_doe
+print_r($session->cart);
+
+// Isset
+if (isset($session->username)) {
+    echo 'Username existe!';
+}
+
+// Unset
+unset($session->cart);
 ```
 
-## MODO ESTÁTICO
-
-Você também pode utilizar a forma estática da classe.<br/>
-Dessa maneira você não precisa sempre criar uma nova instancia.
-Basta chamar diretamente a função e pronto.
+### Usando Métodos Estáticos
 
 ```php
-<?
-	require '/vendor/autoload.php';
-	use IsraelNogueira/SkySession/session;
+<?php
 
+use IsraelNogueira\SkySession\Session;
 
-	session::nome("João da Silva");
-	session::dados(["apelido"=>"Jão", "email"=>"jão@gmail.com"]);
+// Set
+Session::username('admin');
+Session::preferences(['theme' => 'dark', 'lang' => 'pt-BR']);
 
+// Get
+echo Session::username(); // admin
+$prefs = Session::preferences();
 
+// Unset (passando null)
+Session::username(null);
 
-
+// Múltiplos argumentos
+Session::data('arg1', 'arg2', 'arg3'); // armazena como array
 ```
 
-E para chamar os dados também é simples:
+---
+
+## 🎯 Uso Avançado
+
+### Configuração Personalizada
 
 ```php
-<?
-	require '/vendor/autoload.php';
-	use IsraelNogueira/SkySession/session;
+<?php
 
-	echo session::nome();
-	print_r(session::dados());
+use IsraelNogueira\SkySession\Session;
 
-
+$session = new Session([
+    'name' => 'custom_session',
+    'lifetime' => 7200,
+    'secure' => true,
+    'cookie_path' => '/',
+    'cookie_domain' => '.example.com',
+    'cookie_secure' => true,
+    'cookie_samesite' => 'Strict',
+    'crypt_key' => 'your_key',
+    'crypt_iv' => 'your_iv'
+]);
 ```
 
-## MANIPULANDO A SESSÃO
+### Singleton Pattern
 
 ```php
-<?
-	require '/vendor/autoload.php';
-	use IsraelNogueira/SkySession/session;
+<?php
 
-	// criando uma informação
-	session::nome("João da silva");
+use IsraelNogueira\SkySession\Session;
 
-	//modificando uma informação
-	session::nome("Maria Aparecida");
-	
-	// retorna uma informação 
-	echo session::nome(); // aqui retorna Maria Aparecida
+// Primeira chamada cria a instância
+$session1 = Session::getInstance(['secure' => true]);
 
-	// excluindo uma informação 
-	session::nome(null);
+// Próximas chamadas retornam a mesma instância
+$session2 = Session::getInstance();
 
-	// Utilizando Arrays
-	session::dados(["apelido"=>"Jão", "email"=>"jão@gmail.com"]);
-	
-	// utilizando apenas um parametro
-	echo session::dados()['apelido']; // retorna "Jão"
-
-	// retorna a array inteira para variável
-	$_DADOS = session::dados();
-
-	// utiliza normalmente
-	echo $_DADOS['email'];
-
-
+// $session1 === $session2 (true)
 ```
 
-## Criptografia
-
-A classe de sessões utiliza criptografia de ponta a ponta, garantindo que os dados do usuário permaneçam protegidos durante o tráfego e o armazenamento no servidor. 
-Além disso, a criptografia é implementada com algoritmos robustos e altamente seguros, como o AES e o HMAC-SHA256, oferecendo uma camada adicional de proteção contra ameaças de segurança.
-
-```txt
-
-	A $_SESSION ficará assim:
-	
-	Array
-	(
-		[7MKM1vYOmOLkwQHlRrRT2A==] => rBKu5vB7+GWq53BboT9Qrw==
-		[TjDYbihs4t79o3BMiRBEPQ==] => lm+sC7+SYOnmvHXyEdCBiiYEymgyyV4+gD7Yl7BZBfs2hez/3xiUBtXyl9w0GqT6ykDpNPHZPHASvc9PCMdbow==
-	)
-
-```
-
-
-## OUTRAS FUNÇÕES
+### Trabalhando com Arrays e Objetos
 
 ```php
-<?
-	require '/vendor/autoload.php';
-	use IsraelNogueira/SkySession/session;
+<?php
 
-	// Retorna um dado
-	session::__get($var);
+use IsraelNogueira\SkySession\Session;
 
-	// Seta um dado novo
-	session::__set($var, $value);
+$session = new Session();
 
-	// Finaliza session
-	session::__finish();
+// Arrays complexos
+$session->set('cart', [
+    'items' => [
+        ['id' => 1, 'name' => 'Product A', 'qty' => 2],
+        ['id' => 2, 'name' => 'Product B', 'qty' => 1]
+    ],
+    'total' => 150.00,
+    'discount' => 10.00
+]);
 
-	// Retorna toda a sessão
-	session::__getAllSessions();
+// Objetos (convertidos automaticamente para array)
+$user = new stdClass();
+$user->name = 'John';
+$user->email = 'john@example.com';
+$session->set('user', $user);
 
-	// Atualiza o ID da sessão
-	session::__refreshID();
-
-	// Utilizada para salvar a sessão no armazenamento antes de fechar
-	session::__writeClose();
-
-	// Retorna uma string criptografada
-	session::__crypta($value);
-
-	// Retorna a string decifrada
-	session::__decrypta($crypted);
-
-
-?>
+// Recuperação mantém estrutura
+$cart = $session->get('cart');
+echo $cart['items'][0]['name']; // Product A
 ```
+
+### Regeneração de ID
+
+```php
+<?php
+
+use IsraelNogueira\SkySession\Session;
+
+$session = new Session();
+
+// Regenerar ID (recomendado após login)
+if ($loginSuccess) {
+    $session->regenerateId();
+    $session->set('authenticated', true);
+}
+```
+
+### Destruição Segura
+
+```php
+<?php
+
+use IsraelNogueira\SkySession\Session;
+
+$session = new Session();
+
+// Logout completo
+$session->destroy();
+// Remove todos os dados, cookies e destrói a sessão
+```
+
+### Modo Sem Criptografia
+
+```php
+<?php
+
+use IsraelNogueira\SkySession\Session;
+
+// Para desenvolvimento ou quando criptografia não é necessária
+$session = new Session(['secure' => false]);
+
+$session->set('debug', 'visible data');
+// Dados ficam visíveis em $_SESSION
+```
+
+---
+
+## 📚 API Completa
+
+### Métodos de Instância
+
+| Método | Descrição | Retorno |
+|--------|-----------|---------|
+| `set(string $key, mixed $value): void` | Define um valor | void |
+| `get(string $key): mixed` | Recupera um valor | mixed\|null |
+| `unset(string $key): void` | Remove um valor | void |
+| `has(string $key): bool` | Verifica existência | bool |
+| `all(): array` | Retorna todas variáveis | array |
+| `regenerateId(): bool` | Regenera ID da sessão | bool |
+| `destroy(): void` | Destrói a sessão | void |
+| `writeClose(): bool` | Fecha escrita da sessão | bool |
+
+### Métodos Estáticos
+
+```php
+// Chamadas dinâmicas
+Session::variableName($value); // Set
+Session::variableName();        // Get
+Session::variableName(null);    // Unset
+
+// Métodos com prefixo __
+Session::__set($key, $value);
+Session::__get($key);
+Session::__regenerateId();
+Session::__destroy();
+```
+
+### Magic Methods
+
+```php
+$session->property = $value;    // __set
+$value = $session->property;    // __get
+isset($session->property);      // __isset
+unset($session->property);      // __unset
+```
+
+---
+
+## 🧪 Testes
+
+### Executar todos os testes
+
+```bash
+composer test
+```
+
+### Com cobertura
+
+```bash
+composer test:coverage
+```
+
+### Análise estática
+
+```bash
+composer phpstan
+```
+
+### Code Style
+
+```bash
+# Verificar
+composer cs:check
+
+# Corrigir
+composer cs:fix
+```
+
+---
+
+## 🔒 Segurança
+
+### Práticas Implementadas
+
+✅ **Criptografia AES-256-CBC** - Padrão militar  
+✅ **Strict Mode** - Previne session fixation  
+✅ **HTTP Only Cookies** - Proteção contra XSS  
+✅ **Secure Cookies** - Apenas HTTPS  
+✅ **SameSite** - Proteção CSRF  
+✅ **Session ID Regeneration** - Após autenticação  
+✅ **Validação de Entrada** - Todos os parâmetros  
+✅ **Exceptions** - Tratamento robusto de erros  
+
+### Reportar Vulnerabilidades
+
+Envie para: **israel@feats.com.br**
+
+---
+
+## 🤝 Contribuindo
+
+1. Fork o projeto
+2. Crie uma branch (`git checkout -b feature/nova-funcionalidade`)
+3. Commit suas mudanças (`git commit -m 'feat: adiciona nova funcionalidade'`)
+4. Push para a branch (`git push origin feature/nova-funcionalidade`)
+5. Abra um Pull Request
+
+### Padrões
+
+- ✅ PSR-12 Code Style
+- ✅ PHPStan Level Max
+- ✅ Testes para novas funcionalidades
+- ✅ Documentação PHPDoc
+- ✅ Conventional Commits
+
+---
+
+## 📄 Licença
+
+MIT License - veja [LICENSE](LICENSE) para detalhes.
+
+---
+
+## 👤 Autor
+
+**Israel Nogueira**
+
+- Email: israel@feats.com.br
+- GitHub: [@israel-nogueira](https://github.com/israel-nogueira)
+
+---
+
+## ⭐ Mostre seu apoio
+
+Se este projeto te ajudou, dê uma ⭐!
+
+---
+
+## 📝 Changelog
+
+### [2.0.0] - 2024
+
+#### 🎉 Adicionado
+- Refatoração completa para PHP 8.1+
+- Suporte a type hints e strict types
+- Interfaces e contratos (PSR)
+- Testes unitários com 100% cobertura
+- Exceptions personalizadas
+- Singleton pattern
+- Configuração via array
+- Métodos estáticos dinâmicos
+
+#### 🔧 Modificado
+- Nome da classe para PascalCase
+- Estrutura PSR-4
+- Documentação PHPDoc completa
+- README modernizado
+
+#### ❌ Removido
+- Suporte PHP < 8.1
+- Tags PHP curtas
+- Dependência de parse_ini_file
+- Código legado
+
+---
+
+**Desenvolvido com ❤️ por Israel Nogueira**

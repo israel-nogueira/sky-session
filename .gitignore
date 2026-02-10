@@ -1,2 +1,9 @@
 /vendor/
-/src/*.psd
+/coverage/
+/.phpunit.cache/
+.env
+composer.lock
+.DS_Store
+.idea/
+.vscode/
+*.log
