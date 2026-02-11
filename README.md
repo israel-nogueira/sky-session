@@ -329,33 +329,43 @@ unset($session->property);      // __unset
 
 ## 🧪 Testes
 
-### Executar todos os testes
+### Para Desenvolvedores (Clone do Repositório)
+
+Se você clonou o repositório para contribuir:
 
 ```bash
+# Instalar dependências
+composer install
+
+# Executar todos os testes
 composer test
-```
 
-### Com cobertura
-
-```bash
+# Com cobertura
 composer test:coverage
-```
 
-### Análise estática
-
-```bash
+# Análise estática
 composer phpstan
+
+# Code Style
+composer cs:check  # Verificar
+composer cs:fix    # Corrigir
 ```
 
-### Code Style
+### Para Usuários (Instalação via Composer)
+
+Se você instalou via `composer require israel-nogueira/sky-session`, os testes estão no pacote instalado.
+
+Para rodar os testes do pacote:
 
 ```bash
-# Verificar
-composer cs:check
+# Windows
+php vendor\bin\phpunit vendor\israel-nogueira\sky-session\tests\Unit\
 
-# Corrigir
-composer cs:fix
+# Linux/Mac
+php vendor/bin/phpunit vendor/israel-nogueira/sky-session/tests/Unit/
 ```
+
+**Nota:** Os testes são executados automaticamente no CI/CD antes de cada release. Você não precisa rodá-los para usar a biblioteca com segurança.
 
 ---
 
