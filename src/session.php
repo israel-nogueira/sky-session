@@ -325,10 +325,10 @@ class Session implements SessionInterface
         $defaults = [
             'name' => $this->getEnv('SESSION_NAME', 'sky_session'),
             'lifetime' => (int)$this->getEnv('SESSION_LIFETIME', '3600'),
-            'secure' => (bool)$this->getEnv('SESSION_SECURE', 'true'),
+			'secure' => filter_var($this->getEnv('SESSION_SECURE', 'true'), FILTER_VALIDATE_BOOLEAN),
             'cookie_path' => $this->getEnv('SESSION_COOKIE_PATH', '/'),
             'cookie_domain' => $this->getEnv('SESSION_COOKIE_DOMAIN', ''),
-            'cookie_secure' => (bool)$this->getEnv('SESSION_COOKIE_SECURE', 'true'),
+            'cookie_secure' => filter_var($this->getEnv('SESSION_COOKIE_SECURE', 'true'), FILTER_VALIDATE_BOOLEAN),
             'cookie_samesite' => $this->getEnv('SESSION_COOKIE_SAMESITE', 'Lax'),
             'save_path' => $this->getEnv('SESSION_SAVE_PATH', ''),
             'crypt_key' => $this->getEnv('SESSION_CRYPT_KEY', ''),

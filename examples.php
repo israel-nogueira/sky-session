@@ -7,12 +7,18 @@ require __DIR__ . '/vendor/autoload.php';
 use IsraelNogueira\SkySession\Session;
 
 // ========================================
+// CONFIGURAÇÃO DE AMBIENTE (DEVE VIR ANTES DE TUDO)
+// ========================================
+putenv('SESSION_CRYPT_KEY=' . bin2hex(random_bytes(16)));
+putenv('SESSION_CRYPT_IV=' . base64_encode(random_bytes(16)));
+
+// ========================================
 // EXEMPLO 1: Uso Básico
 // ========================================
 
 echo "=== EXEMPLO 1: Uso Básico ===\n\n";
 
-$session = new Session(['secure' => false]); // Desabilitado para ver os dados
+$session = new Session(['secure' => false]);
 
 // Setando valores
 $session->set('username', 'john_doe');
@@ -70,7 +76,7 @@ echo "First Item: " . $cart['items'][0]['name'] . "\n\n";
 
 echo "=== EXEMPLO 4: Métodos Estáticos ===\n\n";
 
-// Set
+// Se0t0
 Session::token('abc123xyz');
 Session::preferences(['theme' => 'dark', 'lang' => 'pt-BR']);
 
@@ -85,10 +91,6 @@ echo "\n";
 // ========================================
 
 echo "=== EXEMPLO 5: Modo Seguro ===\n\n";
-
-// Configurar variáveis de ambiente primeiro
-putenv('SESSION_CRYPT_KEY=' . bin2hex(random_bytes(16)));
-putenv('SESSION_CRYPT_IV=' . base64_encode(random_bytes(16)));
 
 $secureSession = new Session(['secure' => true]);
 
@@ -130,7 +132,7 @@ echo "=== EXEMPLO 7: Todas as Variáveis ===\n\n";
 
 $all = $session->all();
 echo "Total de variáveis: " . count($all) . "\n";
-print_r(array_keys($all));
+print_r($all);
 echo "\n";
 
 

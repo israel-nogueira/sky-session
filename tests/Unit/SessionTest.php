@@ -209,11 +209,10 @@ class SessionTest extends TestCase
 
     public function testStaticMethodsWithPrefix(): void
     {
-        Session::getInstance(['secure' => false]);
-        
-        Session::__set('prefixed', 'test');
-        $result = Session::__get('prefixed');
-        
+
+		$session = Session::getInstance(['secure' => false]);
+		$session->__set('prefixed', 'test');     // ✅ CORRETO
+		$result = $session->__get('prefixed');   // ✅ CORRETO
         $this->assertEquals('test', $result);
     }
 
