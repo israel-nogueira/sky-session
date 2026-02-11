@@ -8,9 +8,7 @@
 **Gerenciamento de sessões moderno, seguro e testado para PHP 8.1+**
 
 Leve a segurança das suas sessões para o próximo nível com Sky Session. Criptografia AES-256-CBC, PSR-4 compliant, 100% testado e fácil de usar.
-
 ---
-
 ## 📋 Índice
 
 - [Características](#-características)
